@@ -98,7 +98,7 @@ feature 'authenticated user deletes an account', %q(
 
 ) do
 
-  xscenario 'successfully deletes an account' do
+  scenario 'successfully deletes an account' do
     visit '/'
     click_on 'Sign up'
     fill_in 'Email', with: 'test@dummy.com'
@@ -108,8 +108,8 @@ feature 'authenticated user deletes an account', %q(
     click_on 'Edit account'
     expect(page).to have_content('Unhappy?')
     click_on 'Cancel my account'
-    # some way to switch to the popup window...
-    click_on 'OK'
+    page.driver.browser.switch_to.confirm.accept
+    # click_on 'OK'
 
 
     expect(page).to have_content('Bye! Your account has been successfully cancelled. We hope to see you again soon.')
