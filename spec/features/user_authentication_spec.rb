@@ -9,18 +9,20 @@ feature 'unauthenticated user signs in', %q(
 ) do
 
   scenario 'successfully signs in' do
-    visit '/'
-    click_on 'Sign up'
-    fill_in 'Email', with: 'test@dummy.com'
-    fill_in 'Password', with: '1234abcd'
-    fill_in 'Password confirmation', with: '1234abcd'
-    click_on 'Create Account'
-    click_on 'Sign out'
+    user = FactoryGirl.create(:user)
+
+    # visit '/'
+    # click_on 'Sign up'
+    # fill_in 'Email', with: 'test@dummy.com'
+    # fill_in 'Password', with: '1234abcd'
+    # fill_in 'Password confirmation', with: '1234abcd'
+    # click_on 'Create Account'
+    # click_on 'Sign out'
 
     visit '/'
     click_on 'Sign in'
-    fill_in 'Email', with: 'test@dummy.com'
-    fill_in 'Password', with: '1234abcd'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
     click_button 'Log in'
 
     expect(page).to have_content('Signed in successfully.')
@@ -108,10 +110,6 @@ feature 'authenticated user deletes an account', %q(
     click_on 'Edit account'
     expect(page).to have_content('Unhappy?')
     click_on 'Cancel my account'
-    page.driver.browser.switch_to.confirm.accept
-    # click_on 'OK'
-
-
     expect(page).to have_content('Bye! Your account has been successfully cancelled. We hope to see you again soon.')
   end
 end

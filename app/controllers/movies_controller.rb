@@ -3,11 +3,14 @@ class MoviesController < ApplicationController
 
   # GET /movies
   def index
-    @movies = Movie.all
+    @movies = Movie.all.order(year: :desc)
   end
 
   # GET /movies/1
   def show
+    @reviews = @movie.reviews.order(created_at: :asc)
+    # @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+    # @html_string = @markdown.render(@review.body)
   end
 
   # GET /movies/new
@@ -17,12 +20,14 @@ class MoviesController < ApplicationController
 
   # GET /movies/1/edit
   def edit
+    @movie = Movie.find(params[:id])
   end
 
   # POST /movies
   def create
     @movie = Movie.new(movie_params)
-
+    @movie.user = current_user
+    
     if @movie.save
       redirect_to @movie, notice: 'Movie was successfully created.'
     else

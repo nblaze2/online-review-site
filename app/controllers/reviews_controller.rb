@@ -13,6 +13,7 @@ class ReviewsController < ApplicationController
   # GET /reviews/new
   def new
     @review = Review.new
+    @movie = Movie.find(params[:movie_id])
   end
 
   # GET /reviews/1/edit
@@ -22,9 +23,12 @@ class ReviewsController < ApplicationController
   # POST /reviews
   def create
     @review = Review.new(review_params)
+    @review.user = current_user
+    @movie = Movie.find(params[:movie_id])
+    @review.movie = @movie
 
     if @review.save
-      redirect_to @review, notice: 'Review was successfully created.'
+      redirect_to @movie, notice: 'Review was successfully created.'
     else
       render :new
     end
@@ -32,8 +36,9 @@ class ReviewsController < ApplicationController
 
   # PATCH/PUT /reviews/1
   def update
+    @review = Review.find(params[:id])
     if @review.update(review_params)
-      redirect_to @review, notice: 'Review was successfully updated.'
+      redirect_to @movie, notice: 'Review was successfully updated.'
     else
       render :edit
     end

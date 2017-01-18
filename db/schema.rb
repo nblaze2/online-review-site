@@ -10,23 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170116204637) do
+ActiveRecord::Schema.define(version: 20170118150843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "movies", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "year"
+    t.string   "title",      null: false
+    t.integer  "year",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id",    null: false
+    t.index ["user_id"], name: "index_movies_on_user_id", using: :btree
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.string   "title"
-    t.text     "body"
-    t.integer  "user_id"
-    t.integer  "movie_id"
+    t.string   "title",      null: false
+    t.text     "body",       null: false
+    t.integer  "user_id",    null: false
+    t.integer  "movie_id",   null: false
     t.integer  "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -51,6 +53,7 @@ ActiveRecord::Schema.define(version: 20170116204637) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "movies", "users"
   add_foreign_key "reviews", "movies"
   add_foreign_key "reviews", "users"
 end

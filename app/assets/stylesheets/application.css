@@ -13,3 +13,32 @@
  *= require_tree .
  *= require_self
  */
+
+ body {
+   margin: 0;
+ }
+
+.nav-bar {
+  background-color: darkorange;
+  font-size: 15pt;
+  color: black;
+  padding: 10pt;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.auth-links {
+  float: right;
+}
+
+.table-title {
+  margin-left: 30pt;
+}
+
+table {
+  margin-left: 30pt;
+}
+
+.new-movie {
+  margin-left: 30pt;
+}

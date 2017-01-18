@@ -1,14 +1,35 @@
-<p id="notice"><%= notice %></p>
+<div>
+  <strong>
+    <%= @movie.title %>
+  </strong>
 
-<p>
-  <strong>Title:</strong>
-  <%= @movie.title %>
-</p>
+   / (<%= @movie.year %>) /
 
-<p>
-  <strong>Year:</strong>
-  <%= @movie.year %>
-</p>
+  <strong>Posted by:</strong>
+  <%= @movie.user.email %>
+</div>
+<div>
+  <%= link_to 'Edit', edit_movie_path(@movie) %> |
+  <%= link_to 'Destroy', @movie, method: :delete, data: { confirm: 'Are you sure?' } %> |
+  <%= link_to 'Back', movies_path %>
+</div>
+
+<br/>
+<br/>
+<%= link_to 'Post a Review', new_movie_review_path(@movie, @review) %>
+<br/>
+<h4>Reviews</h4>
+
+<ol>
+  <% @reviews.each do |review| %>
+  <li>
+    <strong><%= review.title %></strong> | <strong>Posted by:</strong>
+    <%= review.user.email %> | (<%= review.updated_at %>) | <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <br/>
+  </li>
+  <% end %>
+</ol>
+<br/>
 
 <%= link_to 'Edit', edit_movie_path(@movie) %> |
 <%= link_to 'Back', movies_path %>

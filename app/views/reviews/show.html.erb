@@ -11,19 +11,9 @@
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @review.user %>
-</p>
-
-<p>
-  <strong>Movie:</strong>
-  <%= @review.movie %>
-</p>
-
-<p>
   <strong>Rating:</strong>
   <%= @review.rating %>
 </p>
 
 <%= link_to 'Edit', edit_review_path(@review) %> |
-<%= link_to 'Back', reviews_path %>
+<%= link_to 'Back', movie_reviews_path %>
