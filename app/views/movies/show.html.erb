@@ -12,8 +12,7 @@
 </div>
 <div>
   <%= link_to 'Edit', edit_movie_path(@movie) %> |
-  <%= link_to 'Destroy', @movie, method: :delete, data: { confirm: 'Are you sure?' } %> |
-  <%= link_to 'Back', movies_path %>
+  <%= link_to 'Destroy', @movie, method: :delete %>
 </div>
 
 <br/>
@@ -26,14 +25,13 @@
   <% @reviews.each do |review| %>
   <li>
     <strong><%= review.title %></strong> | <strong>Posted by:</strong>
-    <%= review.user.email %> | (<%= review.updated_at %>) | <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= review.user.email %> | (<%= review.updated_at %>) | <%= link_to 'Destroy', review, method: :delete %>
     <br/>
   </li>
   <% end %>
 </ol>
 <br/>
 
-<%= link_to 'Edit', edit_movie_path(@movie) %> |
 <%= link_to 'Back', movies_path %>
 
 </div>
