@@ -8,6 +8,9 @@ class ReviewsController < ApplicationController
 
   # GET /reviews/1
   def show
+    @review = Review.find(params[:id])
+    @movie = Movie.find(params[:movie_id])
+    @review.movie = @movie
   end
 
   # GET /reviews/new
@@ -18,6 +21,9 @@ class ReviewsController < ApplicationController
 
   # GET /reviews/1/edit
   def edit
+    @review = Review.find(params[:id])
+    @movie = Movie.find(params[:movie_id])
+    @review.movie = @movie
   end
 
   # POST /reviews
@@ -26,7 +32,6 @@ class ReviewsController < ApplicationController
     @review.user = current_user
     @movie = Movie.find(params[:movie_id])
     @review.movie = @movie
-
     if @review.save
       redirect_to @movie, notice: 'Review was successfully created.'
     else
@@ -37,6 +42,8 @@ class ReviewsController < ApplicationController
   # PATCH/PUT /reviews/1
   def update
     @review = Review.find(params[:id])
+    @movie = Movie.find(params[:movie_id])
+    @review.movie = @movie
     if @review.update(review_params)
       redirect_to @movie, notice: 'Review was successfully updated.'
     else
@@ -46,8 +53,9 @@ class ReviewsController < ApplicationController
 
   # DELETE /reviews/1
   def destroy
+    @review = Review.find(params[:id])
     @review.destroy
-    redirect_to reviews_url, notice: 'Review was successfully destroyed.'
+    redirect_to movies_path, notice: 'Review was successfully destroyed.'
   end
 
   private
