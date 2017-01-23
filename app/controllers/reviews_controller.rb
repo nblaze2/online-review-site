@@ -1,5 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user, except: [:index, :show]
+  before_action :authorize_user, only: [:edit, :update, :destroy]
 
   # GET /reviews
   def index
@@ -8,7 +10,6 @@ class ReviewsController < ApplicationController
 
   # GET /reviews/1
   def show
-    @review = Review.find(params[:id])
     @movie = Movie.find(params[:movie_id])
     @review.movie = @movie
   end
@@ -21,7 +22,6 @@ class ReviewsController < ApplicationController
 
   # GET /reviews/1/edit
   def edit
-    @review = Review.find(params[:id])
     @movie = Movie.find(params[:movie_id])
     @review.movie = @movie
   end
@@ -41,7 +41,6 @@ class ReviewsController < ApplicationController
 
   # PATCH/PUT /reviews/1
   def update
-    @review = Review.find(params[:id])
     @movie = Movie.find(params[:movie_id])
     @review.movie = @movie
     if @review.update(review_params)
@@ -53,7 +52,6 @@ class ReviewsController < ApplicationController
 
   # DELETE /reviews/1
   def destroy
-    @review = Review.find(params[:id])
     @review.destroy
     redirect_to movies_path, notice: 'Review was successfully destroyed.'
   end
@@ -93,5 +91,17 @@ class ReviewsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def review_params
       params.require(:review).permit(:title, :body, :user_id, :movie_id, :rating)
+    end
+
+    def authenticate_user
+      if !user_signed_in?
+        redirect_to new_user_session_path, notice: "You must be logged in."
+      end
+    end
+
+    def authorize_user
+      if @review.user != current_user || !current_user.admin?
+        raise ActionController::RoutingError.new("You are not authorized to make those changes.")
+      end
     end
 end
