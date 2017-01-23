@@ -60,11 +60,11 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:review_id])
     @review.votes.create
     vote = Vote.find_by(user: current_user, review: @review)
-    if vote
+    if vote.nil?
+      Vote.create!(user: current_user, review: @review, score: 1)
+    elsif vote.score <= 0
       vote.score += 1
       vote.save
-    else
-      Vote.create!(user: current_user, review: @review, score: 1)
     end
     redirect_to @review.movie
   end
@@ -73,11 +73,11 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:review_id])
     @review.votes.create
     vote = Vote.find_by(user: current_user, review: @review)
-    if vote
+    if vote.nil?
+      Vote.create!(user: current_user, review: @review, score: -1)
+    elsif vote.score >= 0
       vote.score -= 1
       vote.save
-    else
-      Vote.create!(user: current_user, review: @review, score: -1)
     end
     redirect_to @review.movie
   end
@@ -100,8 +100,10 @@ class ReviewsController < ApplicationController
     end
 
     def authorize_user
-      if @review.user != current_user || !current_user.admin?
-        raise ActionController::RoutingError.new("You are not authorized to make those changes.")
+      if @review.user != current_user
+        if !current_user.admin?
+          redirect_to movie_path(@movie), notice: "You are not authorized to make those changes."
+        end
       end
     end
 end

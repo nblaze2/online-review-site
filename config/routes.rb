@@ -6,6 +6,13 @@ Rails.application.routes.draw do
     end
   end
 
+  # namespace :api do
+  #   resources :reviews, only: [:upvote, :downvote] do
+  #     post 'upvote'
+  #     post 'downvote'
+  #   end
+  # end
+
   resources :reviews, only: [:edit, :destroy]
 
   devise_for :users

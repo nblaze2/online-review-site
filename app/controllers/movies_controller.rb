@@ -5,7 +5,12 @@ class MoviesController < ApplicationController
 
   # GET /movies
   def index
-    @movies = Movie.all.order(year: :desc)
+    @movies = Movie.all
+    if params[:search]
+      @movies = Movie.search(params[:search]).order(year: :desc)
+    else
+      @movies = Movie.all.order(year: :desc)
+    end
   end
 
   # GET /movies/1
@@ -57,7 +62,7 @@ class MoviesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def movie_params
-      params.require(:movie).permit(:title, :year)
+      params.require(:movie).permit(:title, :year, :search)
     end
 
     def authenticate_user
@@ -67,8 +72,10 @@ class MoviesController < ApplicationController
     end
 
     def authorize_user
-      if @movie.user != current_user || !current_user.admin?
-        raise ActionController::RoutingError.new("You are not authorized to make those changes.")
+      if @movie.user != current_user
+        if !current_user.admin?
+          redirect_to movie_path(@movie), notice: "You are not authorized to make those changes."
+        end
       end
     end
 end

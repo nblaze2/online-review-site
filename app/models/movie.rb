@@ -5,4 +5,8 @@ class Movie < ApplicationRecord
 
   belongs_to :user
   has_many :reviews, dependent: :destroy
+
+  def self.search(search)
+    where('title ILIKE ?', "%#{search}%")
+  end
 end
