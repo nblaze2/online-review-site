@@ -1,5 +1,7 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user, except: [:index, :show]
+  before_action :authorize_user, only: [:edit, :update, :destroy]
 
   # GET /movies
   def index
@@ -9,8 +11,6 @@ class MoviesController < ApplicationController
   # GET /movies/1
   def show
     @reviews = @movie.reviews.order(created_at: :asc)
-    # @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
-    # @html_string = @markdown.render(@review.body)
   end
 
   # GET /movies/new
@@ -20,14 +20,13 @@ class MoviesController < ApplicationController
 
   # GET /movies/1/edit
   def edit
-    @movie = Movie.find(params[:id])
   end
 
   # POST /movies
   def create
     @movie = Movie.new(movie_params)
     @movie.user = current_user
-    
+
     if @movie.save
       redirect_to @movie, notice: 'Movie was successfully created.'
     else
@@ -59,5 +58,17 @@ class MoviesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def movie_params
       params.require(:movie).permit(:title, :year)
+    end
+
+    def authenticate_user
+      if !user_signed_in?
+        redirect_to new_user_session_path, notice: "You must be logged in."
+      end
+    end
+
+    def authorize_user
+      if @movie.user != current_user || !current_user.admin?
+        raise ActionController::RoutingError.new("You are not authorized to make those changes.")
+      end
     end
 end

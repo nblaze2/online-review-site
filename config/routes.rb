@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :movies
   resources :reviews, only: [:edit, :destroy]
 
   devise_for :users
