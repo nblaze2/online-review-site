@@ -7,4 +7,5 @@ class Review < ApplicationRecord
   validates :rating, numericality: { less_than_or_equal_to: 100 }
   belongs_to :user
   belongs_to :movie
+  has_many :votes, dependent: :destroy
 end

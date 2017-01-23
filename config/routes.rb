@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :movies do
-    resources :reviews
+    resources :reviews do
+      post 'upvote'
+      post 'downvote'
+    end
   end
 
   resources :movies

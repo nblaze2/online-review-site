@@ -58,6 +58,32 @@ class ReviewsController < ApplicationController
     redirect_to movies_path, notice: 'Review was successfully destroyed.'
   end
 
+  def upvote
+    @review = Review.find(params[:review_id])
+    @review.votes.create
+    vote = Vote.find_by(user: current_user, review: @review)
+    if vote
+      vote.score += 1
+      vote.save
+    else
+      Vote.create!(user: current_user, review: @review, score: 1)
+    end
+    redirect_to @review.movie
+  end
+
+  def downvote
+    @review = Review.find(params[:review_id])
+    @review.votes.create
+    vote = Vote.find_by(user: current_user, review: @review)
+    if vote
+      vote.score -= 1
+      vote.save
+    else
+      Vote.create!(user: current_user, review: @review, score: -1)
+    end
+    redirect_to @review.movie
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_review

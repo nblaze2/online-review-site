@@ -26,7 +26,16 @@
   <li>
     <strong><%= review.title %></strong> | <strong>Posted by:</strong>
     <%= review.user.email %> | (<%= review.updated_at %>) |
-    <%= link_to 'Show', movie_review_path(@movie, review) %> 
+    <%= link_to 'Show', movie_review_path(@movie, review) %> |
+
+    <% sum = 0 %>
+    <% review.votes.each do |vote| %>
+      <%  sum += vote.score %>
+    <% end %>
+
+    <%= pluralize(sum, "vote") %> |
+    <%= button_to '+1', movie_review_upvote_path(@movie, review), class: "upvote", method: :post %>
+    <%= button_to '-1', movie_review_downvote_path(@movie, review), class: "downvote", method: :post %>
     <br/>
   </li>
   <% end %>
