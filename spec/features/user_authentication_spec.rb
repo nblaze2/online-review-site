@@ -11,14 +11,6 @@ feature 'unauthenticated user signs in', %q(
   scenario 'successfully signs in' do
     user = FactoryGirl.create(:user)
 
-    # visit '/'
-    # click_on 'Sign up'
-    # fill_in 'Email', with: 'test@dummy.com'
-    # fill_in 'Password', with: '1234abcd'
-    # fill_in 'Password confirmation', with: '1234abcd'
-    # click_on 'Create Account'
-    # click_on 'Sign out'
-
     visit '/'
     click_on 'Sign in'
     fill_in 'Email', with: user.email

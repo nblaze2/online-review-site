@@ -1,0 +1,70 @@
+
+<h1>ADMIN TOOLS</h1>
+
+<h2 class="table-title">Users</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><strong><%= user.email %></strong></td>
+        <% unless user.admin? %>
+          <td><%= link_to 'Delete User', registration_path(current_user), method: :delete %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2 class="table-title">Movies</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Year</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movies.each do |movie| %>
+      <tr>
+        <td><strong><%= movie.title %></strong></td>
+        <td><%= movie.year %></td>
+        <td><%= link_to 'Delete Movie', movie_path(movie.id), method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2 class="table-title">Reviews</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reviews.each do |review| %>
+      <tr>
+        <td><strong><%= review.title %></strong></td>
+        <td><%= review.user.email %></td>
+        <td><%= link_to 'Delete Review', review_path(review.id), method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

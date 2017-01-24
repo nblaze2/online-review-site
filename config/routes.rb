@@ -12,9 +12,8 @@ Rails.application.routes.draw do
   #     post 'downvote'
   #   end
   # end
-
   resources :reviews, only: [:edit, :destroy]
-
+  resources :users, only: [:index]
   devise_for :users
   root to: "home#index"
 end
