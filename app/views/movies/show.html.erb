@@ -23,21 +23,22 @@
 
 <ol>
   <% @reviews.each do |review| %>
-  <li>
+  <li id="<%= review.id %>">
     <strong><%= review.title %></strong> | <strong>Posted by:</strong>
     <%= review.user.email %> | (<%= review.updated_at %>) |
-    <%= link_to 'Show', movie_review_path(@movie, review) %> |
+    <%= link_to 'Show', movie_review_path(@movie, review) %><br>
 
     <% sum = 0 %>
     <% review.votes.each do |vote| %>
       <%  sum += vote.score %>
     <% end %>
 
-    <%= pluralize(sum, "vote") %> |
+    <%= pluralize(review.votes.count, "vote") %> |
+    Rating Score: <%= sum %>
     <%= button_to '+1', movie_review_upvote_path(@movie, review), class: "upvote", method: :post %>
     <%= button_to '-1', movie_review_downvote_path(@movie, review), class: "downvote", method: :post %>
-    <br/>
   </li>
+  <br/>
   <% end %>
 </ol>
 <br/>

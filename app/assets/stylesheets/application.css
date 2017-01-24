@@ -34,5 +34,10 @@
 }
 
 .button_to {
-  width: 25pt;
+  width: auto;
+  display: inline;
+}
+
+.search-bar {
+  margin: 10pt 0pt;
 }

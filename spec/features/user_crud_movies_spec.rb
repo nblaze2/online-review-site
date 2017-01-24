@@ -21,6 +21,31 @@ feature 'authenticated user adds a movie', %q(
     expect(page).to have_content('Movie was successfully created.')
     expect(page).to have_content('Reviews')
   end
+
+  scenario 'fails to creates a movie' do
+    user = FactoryGirl.create(:user)
+    login_as(user, :scope => :user)
+    visit '/'
+    click_on 'New Movie'
+    fill_in 'Year', with: '1989'
+    click_on 'Create Movie'
+
+    expect(page).to have_content("Title can't be blank")
+    expect(page).to have_content('New Movie')
+  end
+
+  scenario 'fails to creates a movie' do
+    user = FactoryGirl.create(:user)
+    login_as(user, :scope => :user)
+    visit '/'
+    click_on 'New Movie'
+    fill_in 'Title', with: 'Batman'
+    fill_in 'Year', with: '198'
+    click_on 'Create Movie'
+
+    expect(page).to have_content('Year is not included in the list')
+    expect(page).to have_content('New Movie')
+  end
 end
 
 feature 'authenticated user views movie information', %q(
@@ -80,8 +105,8 @@ feature 'authenticated user updates a movies information', %q(
 
   scenario 'successfully updates details of a movie' do
     user = FactoryGirl.create(:user)
-    login_as(user, :scope => :user)
     first_movie = FactoryGirl.create(:movie, user_id: user.id)
+    login_as(user, :scope => :user)
 
     visit '/'
 
