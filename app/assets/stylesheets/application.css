@@ -16,13 +16,22 @@
 
  body {
    margin: 0;
+   font-family: Georgia, serif;
+ }
+
+ .nav-title {
+   margin: 0;
+   color: #FFF5EE;
+   background-color: darkorange;
+   padding: 12px 8px;
+   font-size: 24pt;
  }
 
 .nav-bar {
-  background-color: darkorange;
-  font-size: 15pt;
+  background-color: orange;
+  font-size: 12pt;
   color: black;
-  padding: 10pt;
+  padding: 4pt;
 }
 
 .auth-links {

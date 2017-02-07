@@ -1,7 +1,6 @@
 <div class="nav-bar">
-
-<%= link_to 'Movie Index', '/' %>
-
+<%= link_to 'Movie Index', '/' %> |
+<%= link_to 'About', '/pages/about' %>
 <% if user_signed_in? %>
   <div class="auth-links">
     <% if current_user.admin? %>

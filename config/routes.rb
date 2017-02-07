@@ -15,5 +15,6 @@ Rails.application.routes.draw do
   resources :reviews, only: [:edit, :destroy]
   resources :users, only: [:index]
   devise_for :users
+  get "/pages/:page" => "pages#show"
   root to: "home#index"
 end
